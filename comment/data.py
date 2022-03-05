@@ -6,7 +6,6 @@ import torch
 from torch.utils.data import Dataset
 from sklearn.model_selection import StratifiedShuffleSplit
 
-
 # kc-electra pre-train preprocess function  
 def preprocess_df(df, col='comment'):
     emojis = ''.join(emoji.UNICODE_EMOJI.keys())
@@ -24,13 +23,11 @@ def preprocess_df(df, col='comment'):
     df[col] = df[col].map(lambda x: clean(str(x)))
     return df
 
-
 def split_stratified_shuffle_split(df, fold, n_split, input_col='comment', target_col='hate', seed=2022):
     skf = StratifiedShuffleSplit(n_splits=n_split, test_size=1/n_split, random_state=seed)
     for idx, (train_index, valid_index) in enumerate(skf.split(df[input_col], df[target_col])):
         if idx == fold:
             return train_index, valid_index
-
 
 class CustomDataset(Dataset):
     def __init__(self, x_data, y_data, tokenizer, max_len):

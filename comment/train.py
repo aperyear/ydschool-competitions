@@ -1,14 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from tqdm.auto import tqdm
 from torch.nn.modules.loss import _Loss
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
 
 def metrics(y_true, y_pred):
     acc = accuracy_score(y_true, y_pred)
@@ -17,7 +14,6 @@ def metrics(y_true, y_pred):
     f1 = f1_score(y_true, y_pred, average="macro")
     print(f"acc {acc :.2f} prec {prec :.2f} rec {rec :.2f} f1 {f1 :.2f}")
     return f1
-
 
 def train_epoch(model, optimizer, loss_fn, loader):
     model.train()
@@ -48,7 +44,6 @@ def train_epoch(model, optimizer, loss_fn, loader):
     f1 = metrics(y_true, y_pred)
     return losses/len(loader), f1
 
-
 def validate(model, loss_fn, loader):
     model.eval()
     losses = 0
@@ -72,7 +67,6 @@ def validate(model, loss_fn, loader):
     f1 = metrics(y_true, y_pred)
     return losses/len(loader), f1
 
-
 class F1_Loss(nn.Module):
     def __init__(self, n_class=2, epsilon=1e-7):
         super().__init__()
@@ -95,7 +89,6 @@ class F1_Loss(nn.Module):
         f1 = 2 * (precision*recall) / (precision + recall + self.epsilon)
         f1 = f1.clamp(min=self.epsilon, max=1-self.epsilon)
         return 1 - f1.mean()
-
 
 class CE_F1_Loss(_Loss):
     def __init__(self, n_class=2):

@@ -16,14 +16,14 @@ from utils import seed_everything, save_history
 from train import CE_F1_Loss, train_epoch, validate
 from data import preprocess_df, split_stratified_shuffle_split, CustomDataset
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def main(file_name, fold, n_split, data_path, model_name, input_col, target_col, batch_size, select, weight_decay,
          max_len, dropout, lr, scheduler_ratio, loss_fn_name, optim_name, epochs, freeze, save_path, seed, wandb_log, config):
     pprint(config)
     seed_everything(seed)
-
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
     df = pd.read_csv(data_path)
     n_class = 3 if target_col == "bias" else 2
     bias_map = {'none': 0, 'gender': 1, 'others': 2}

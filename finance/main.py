@@ -24,13 +24,11 @@ parser.add_argument('--verbose', action='store_true', help='Print training logs'
 
 args = parser.parse_args()
 
-device = torch.device("cuda" if torch.cuda.is_available()  else "cpu")
-
 
 def main(csv_file=args.data, fold_num=args.fold, path=args.path, name=args.name, 
             epoch=args.epoch, batch=args.batch, lr=args.lr, verbose=args.verbose):
     seed_everything(args.seed)
-
+    
     df_data = pd.read_csv(csv_file)
     x_data, y_data, scaler, x_cols = preprocess_data(df=df_data)
 

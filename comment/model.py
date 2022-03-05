@@ -55,8 +55,6 @@ class BertModel(nn.Module):
                 print(f'training >> {name}')
         return
 
-
-# 실험
 def deleteEncodingLayers(model, num_layers_to_keep):  # must pass in the full bert model
     oldModuleList = model.model.electra.encoder.layer
     newModuleList = nn.ModuleList()
