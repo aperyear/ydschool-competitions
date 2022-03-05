@@ -3,7 +3,6 @@ import torch.nn as nn
 from copy import deepcopy
 from model import MLP
  
- 
 device = torch.device("cuda" if torch.cuda.is_available()  else "cpu")
 
 def get_model(lr: float = 5e-4):
@@ -12,7 +11,6 @@ def get_model(lr: float = 5e-4):
     loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-8)
     return model, loss_fn, optimizer
-
 
 def train_epoch(model, optimizer, loss_fn, loader):
     model.train()
@@ -29,7 +27,6 @@ def train_epoch(model, optimizer, loss_fn, loader):
         losses += loss.cpu().item() 
     return losses/len(loader)
 
-
 def validate(model, loss_fn, loader):
     model.eval()
     losses = 0
@@ -40,7 +37,6 @@ def validate(model, loss_fn, loader):
             loss = loss_fn(output, y.flatten())
             losses += loss.cpu().item()
     return losses/len(loader)
-
 
 def run_epoch(epochs, train_loader, valid_loader, history_dict, fold_num, lr, verbose=False) -> dict:
     model, loss_fn, optimizer = get_model(lr)

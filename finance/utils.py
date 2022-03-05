@@ -16,7 +16,6 @@ def seed_everything(seed):
     random.seed(seed)
     return
 
-
 def save_history(path: str, name: str, state_dict: dict, file_name: str = None) -> None:
     if not os.path.exists(f"{path}/{name}"):
         os.makedirs(f"{path}/{name}")

@@ -27,20 +27,18 @@ class MyDataset(Dataset):
             img = self.transforms(image=img)['image']
         return img, trg
 
-
 def get_train_transforms(): # CT image augmentation
     return A.Compose([
         A.HorizontalFlip(p=0.5), # 기본
-        A.ShiftScaleRotate(scale_limit=0.15, rotate_limit=10, p=0.5), # 추가
-        A.RandomBrightnessContrast(p=0.5), # 추가
-        A.OpticalDistortion(p=0.5), # 실험1
-        A.GridDistortion(p=0.5), # 실험1
-        A.GaussNoise(p=0.5), # 실험2 
+        A.ShiftScaleRotate(scale_limit=0.15, rotate_limit=10, p=0.5),
+        A.RandomBrightnessContrast(p=0.5),
+        A.OpticalDistortion(p=0.5),
+        A.GridDistortion(p=0.5),
+        A.GaussNoise(p=0.5),
         A.Normalize(mean=[0.59534838, 0.5949003 , 0.59472117], 
                     std=[0.29705278, 0.29707744, 0.29702731]),
         ToTensorV2()
     ])
-
 
 def get_valid_transforms():
     return A.Compose([
@@ -48,7 +46,6 @@ def get_valid_transforms():
                     std=[0.29705278, 0.29707744, 0.29702731]),
         ToTensorV2()
     ])
-
 
 def split_stratified_shuffle_split(df, fold, n_split, seed):
     skf = StratifiedShuffleSplit(n_splits=n_split, train_size=1-(1/n_split), test_size=(1/n_split), random_state=seed)

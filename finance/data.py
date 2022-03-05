@@ -23,7 +23,6 @@ class CustomDataset(Dataset):
         except: y = [y]
         return torch.tensor(x).float(), torch.tensor(y).long()
 
-
 def preprocess_data(df: pd.DataFrame, target: str = 'depvar', seed: int = 50):
     df = shuffle(df, random_state=seed)
     y_data = df[target]
@@ -34,7 +33,6 @@ def preprocess_data(df: pd.DataFrame, target: str = 'depvar', seed: int = 50):
     x_data[x_cols] = scaler.transform(x_data[x_cols])
     return x_data, y_data, scaler, x_cols
 
-
 def get_data_loader(x_train: np.array, y_train: np.array, x_valid: np.array, y_valid: np.array, batch_size: int):
     train_set = CustomDataset(x_train, y_train)
     valid_set = CustomDataset(x_valid, y_valid)
@@ -42,7 +40,6 @@ def get_data_loader(x_train: np.array, y_train: np.array, x_valid: np.array, y_v
     train_loader = DataLoader(train_set, batch_size=batch_size, drop_last=True)
     valid_loader = DataLoader(valid_set, batch_size=batch_size, drop_last=False)
     return train_loader, valid_loader
-
 
 def split_data(i_idx: int, j_idx: int, data: np.array) -> np.array:
     train = np.concatenate([data[:i_idx], data[j_idx:]])

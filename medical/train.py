@@ -30,7 +30,6 @@ def train_one_epoch(model, criterion, train_loader, scheduler, device, optimizer
         match += (preds == trg).sum().item()
     return losses, match
 
-    
 def valid_one_epoch(model, criterion, valid_loader, device):
     model.eval()
 
@@ -76,7 +75,7 @@ class F1_Loss(nn.Module):
 
 
 class MyLoss(_Loss):
-    def __init__(self): # 실험환경 세팅으로
+    def __init__(self):
         super(MyLoss, self).__init__()
         self.lossCE = nn.CrossEntropyLoss()
         self.lossF1 = F1_Loss()
@@ -112,7 +111,6 @@ class EarlyStopper():
             self.best_acc = score
             print('best score :', self.best_acc)
         print("best_acc", self.best_acc)
-        
         
 class CosineAnnealingWarmupRestarts(_LRScheduler):
     """

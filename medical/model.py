@@ -28,7 +28,6 @@ class MyModel(nn.Module):
         x = self.feature(x)
         return x
 
-
 def init_weight(model, kind='xavier'):
     for name, i in model.named_parameters():
         if kind == 'xavier':

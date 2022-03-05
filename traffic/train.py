@@ -7,7 +7,6 @@ from model import MLP
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
 class RMSELoss(nn.Module):
     def __init__(self):
         super().__init__()
@@ -16,14 +15,12 @@ class RMSELoss(nn.Module):
     def forward(self, yhat, y):
         return torch.sqrt(self.mse(yhat, y))
 
-
 def get_model(in_f, out_f, lr=3e-4):
     model = MLP(in_features=in_f, out_features=out_f)
     model = model.to(device)
     loss_fn = RMSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     return model, loss_fn, optimizer
-
 
 def train_epoch(model, optimizer, loss_fn, loader):
     model.train()
@@ -40,7 +37,6 @@ def train_epoch(model, optimizer, loss_fn, loader):
 
         losses += loss
     return losses/len(loader)
-
 
 def validate(model, loss_fn, loader, scaler):
     model.eval()
@@ -59,7 +55,6 @@ def validate(model, loss_fn, loader, scaler):
             losses += loss
             scale_losses += scale_loss
     return loss/len(loader), scale_losses/len(loader)
-
 
 def run_epoch(epochs, train_loader, valid_loader, in_f, out_f, y_scaler, init=None, lr=3e-4, wandb=None, log=False):
     start = time.time()    
@@ -94,7 +89,6 @@ def run_epoch(epochs, train_loader, valid_loader, in_f, out_f, y_scaler, init=No
         'epoch': best_epoch,
     }
     return history_dict
-
 
 def init_weight(model, kind='xavier'):
     for name, i in model.named_parameters():

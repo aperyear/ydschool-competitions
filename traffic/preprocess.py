@@ -4,7 +4,6 @@ import pandas as pd
 from datetime import datetime
 
 
-
 def create_date_table(start, end, freq="60min", holiday=True):
     df = pd.DataFrame({"Date": pd.date_range(start, end, freq=freq)})
     df["Day"] = df.Date.dt.day
@@ -19,19 +18,16 @@ def create_date_table(start, end, freq="60min", holiday=True):
     df = df.fillna(0)
     return df
 
-
 def col_to_date(csv_path):
     df = pd.read_csv(csv_path)
     df = df.rename(columns={'날짜': 'Date', '시간': 'Hour'})
     df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
     return df
 
-
 def merge_info(df, table):
     for i, col in table.iterrows():
         df.loc[(df.Date == str(col.Date.date())) & (df.Hour == col.Hour), ['Holiday', 'DayNum']] = col['Holiday'], col['DayNum']
     return df
-
 
 def preprocess_dfs():
     if not os.path.exists(f"./data/final_train.csv"):
