@@ -7,12 +7,12 @@
 - 팀구성: 4명
 
 ### 실험 과정
-1. 언제나처럼 처음 3일은 팀원 각자 데이터를 분석하고 모델을 만들어 보고 의견을 공유했다.
-2. 나는 데이터를 처음부터 tokenize를 하고 transformer로 학습시켜봤지만, 점수가 베이스라인보다 낮았다.  
-3. 이번 대회는 이미 높은 성능을 낼 수 있는 베이스라인이 주어졌다. Kc-ELECTRA를 사용해 fine-tunning 했다.
-4. data가 뉴스와 댓글이기 때문에 위키피디아나 사전 등을 학습한 pre-trained model보다 댓글로 사전학습시킨 Kc-BERT/Kc-ELECTRA가 가장 성능이 좋을 것으로 예상됐다.
-5. 우리 팀은 hugging face에서 한국어가 포함된 BERT 모델을 대부분 실험해봤고, 예상대로 이번 task에서는 Kc-ELECTRA가 가장 성능이 좋았다.
-6. 그래서 베이스라인과 같은 모델을 선택하고 hyper parameter tunning에 집중했다.
+1. 처음 3일은 팀원 각자 데이터를 분석하고 모델을 만들어 보고 의견을 공유했다.
+2. 데이터를 처음부터 tokenize를 하고 transformer로 학습시켜봤지만, 점수가 베이스라인보다 낮았다.  
+3. 이번 대회는 이미 높은 성능을 낼 수 있는 베이스라인이 주어졌다. 베이스라인은 Kc-ELECTRA를 사용해 fine-tunning을 했다.
+4. data가 뉴스와 댓글이기 때문에 위키피디아 등을 사전학습한 model보다 댓글로 사전학습시킨 Kc-BERT/Kc-ELECTRA가 가장 성능이 좋을 것으로 예상됐다.
+5. 다만, hugging face에서 한국어가 포함된 BERT 모델을 대부분 실험해봤고, 같은 환경에서 실험했을 때 Kc-ELECTRA가 가장 성능이 좋았다.
+6. 그래서 결국 베이스라인과 같은 모델을 선택하고 fine-tunning에 집중했다.
 7. input data로 '댓글'과 '뉴스 기사 제목' 두 가지가 있는데 여러 조합을 실험했다.
 8. 250번이 넘는 wandb를 찍으면서 팀원과 함께 개선 방안을 논의했다.
 9. 1~2번의 epoch로 overfitting에 가깝게 되는 문제를 해결하기 위해 다양한 실험을 했다.
@@ -20,9 +20,9 @@
 
 ### 실험 성과
 - 댓글 + 제목을 함께 input으로 줄 때 성능이 가장 높았다.
-- learning rate는 1e-5에서 학습이 됐다.
-- scheduler가 없을 때 학습 결과가 안정적이었다.
-- 특정 step size에서 validation metrics를 확인하고 가장 성능이 좋은 모델을 저장해 cv를 높일 수 있었다.
+- learning rate는 1e-5에서 학습이 가장 안정적이었다.
+- scheduler가 없을 때 학습이 더 안정적이었다.
+- 특정 step size에서 validation metrics를 확인하고 가장 성능이 좋은 모델을 저장해 cv를 높혔다.
 - 같은 환경에서 실험한 bias(3가지 예측)와 hate(2가지 예측)의 결과 차이가 분명히 있었다.
 - 한 팀원이 학습한 모델은 bias 성능이 높고, 다른 팀원이 학습한 모델은 hate 성능이 높았다.
 - dropout은 큰 차이가 없었다.
@@ -30,7 +30,7 @@
 - 모델을 작게 하기 위해 중간 layer를 제거하는 방법은 성능이 낮아졌다.
 - 마지막 hidden layer 4개를 concat 하는 방법도 성능이 낮아졌다.
 - AdamW의 weight decay도 유의미한 성능 향상이 없었다.
-- 전처리 과정에서 특수 문자나 불필요해 보이는 문자 stop words 등을 제거나 바꾸는 작업은 효과가 없었다.
+- 전처리 과정에서 특수 문자나 불필요해 보이는 문자, stop words 등을 제거하거나 바꾸는 작업은 효과가 없었다.
 - comment와 title을 Kc-ELECTRA와 Ko-BERT/Kc-ELECTRA에 각각 input으로 주고 마지막 logits을 concat 하는 방법도 효과가 없었다.
 - layer마다 learning rate를 다르게 주는 방법도 효과가 없었다.
 - 모델의 bias accuracy와 F1의 차이가 8% 이상 차이가 나기 때문에,
