@@ -33,8 +33,7 @@
 - 전처리 과정에서 특수 문자나 불필요해 보이는 문자, stop words 등을 제거하거나 바꾸는 작업은 효과가 없었다.
 - comment와 title을 Kc-ELECTRA와 Ko-BERT/Kc-ELECTRA에 각각 input으로 주고 마지막 logits을 concat 하는 방법도 효과가 없었다.
 - layer마다 learning rate를 다르게 주는 방법도 효과가 없었다.
-- 모델의 bias accuracy와 F1의 차이가 8% 이상 차이가 나기 때문에,
-- 모델의 logit 값에 threshold [0.9, 1, 0.8] 등으로 조정해 주는 방법이 F1 점수를 조금 향상시켰지만, 일반화에 부작용이 우려됐다.
+- 모델의 bias accuracy와 F1의 차이가 8% 이상 차이가 나기 때문에, 모델의 logit 값에 threshold [0.9, 1, 0.8] 등으로 조정해 주는 방법이 F1 점수를 조금 향상시켰지만, 일반화에 부작용이 우려됐다.
 - 마지막으로 augmentation 측면에서 input data를 50% 확률로 random하게 shuffle하는 방법에서 성능이 향상됐다.
 
 ### 대회 결과
